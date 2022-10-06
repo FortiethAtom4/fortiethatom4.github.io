@@ -16,6 +16,7 @@
             
             //4.25 for dogs, 2.60 for fries, 1.50 for drinks. expensive
             let subtotal = (4.25*dog_amt + 2.60*fries_amt + 1.50*drink_amt)
+            let rounded_subtotal = subtotal.toFixed(2)
 
             let discount = 0;
             if(subtotal > 20){
@@ -23,6 +24,7 @@
             }
             
             let tax = ((subtotal - discount)*0.0625);
+            let rounded_tax = tax.toFixed(2)
 
             let grand_total = (subtotal - discount + tax).toFixed(2);
 
@@ -31,9 +33,9 @@
             document.getElementById("fries").innerHTML = fries_amt
             document.getElementById("drinks").innerHTML = drink_amt
 
-            document.getElementById("subtotal").innerHTML = subtotal
+            document.getElementById("subtotal").innerHTML = rounded_subtotal
             document.getElementById("discount").innerHTML = discount
-            document.getElementById("tax").innerHTML = tax
+            document.getElementById("tax").innerHTML = rounded_tax
             document.getElementById("grandtotal").innerHTML = grand_total
         }
     </script>
