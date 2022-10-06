@@ -29,7 +29,7 @@
             
             let tax = ((subtotal - discount)*0.0625).toFixed(2);
 
-            let grand_total = (subtotal - discount + tax).toFixed(2);
+            let grand_total = (subtotal - discount + tax);
 
             //Math's all done, just need the document write stuff down here
             document.getElementById("hotdogs").innerHTML = dog_amt
