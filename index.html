@@ -7,29 +7,24 @@
             let dog_amt;
             let drink_amt;
             let fries_amt;
-            do{
-                dog_amt = prompt("how many hotdogs do you want?");
-            }while(isNaN(dog_amt))
+            
+            dog_amt = prompt("how many hotdogs do you want?");
         
-            do{
-                drink_amt = prompt("how many drinks do you want?");
-            }while(isNaN(drink_amt))
+            drink_amt = prompt("how many drinks do you want?");
         
-            do{
-                fries_amt = prompt("how many orders of fries do you want?");
-            }while(isNaN(fries_amt))
+            fries_amt = prompt("how many orders of fries do you want?");
             
             //4.25 for dogs, 2.60 for fries, 1.50 for drinks. expensive
-            let subtotal = (4.25*dog_amt + 2.60*fries_amt + 1.50*drink_amt).toFixed(2)
+            let subtotal = (4.25*dog_amt + 2.60*fries_amt + 1.50*drink_amt)
 
-            let discount = 0.00;
+            let discount = 0;
             if(subtotal > 20){
-                discount = (0.10 * subtotal).toFixed(2);
+                discount = (0.10 * subtotal);
             }
             
-            let tax = ((subtotal - discount)*0.0625).toFixed(2);
+            let tax = ((subtotal - discount)*0.0625);
 
-            let grand_total = (subtotal - discount + tax);
+            let grand_total = (subtotal - discount + tax).toFixed(2);
 
             //Math's all done, just need the document write stuff down here
             document.getElementById("hotdogs").innerHTML = dog_amt
