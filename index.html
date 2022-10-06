@@ -1,17 +1,58 @@
 <!DOCTYPE html>
 <html>
-<title> THOMSON BRAND'S WEBSITE </title>
-<div>
-Info About Me:
-<ol>
-<li> Name: Thomson </li>
-<li> Major: CS </li>
-<li> MY IP: 108.7.201.196 </li>
-<li> I grew up in Burlington, MA (about 20 mins away). </li>
-<li> something unexpected: I signed up to work in El Paso as an intern last summer... by accident. </li>
-</ol>
-</div>
-Picture time!
-<img src="https://i.imgur.com/GNKepgW.jpg" alt= "Burlington Mall">
+<title> Joe's Hotdogs </title>
+<body>
+    Your Order
+    <script>
+        let dog_amt;
+        let drink_amt;
+        let fries_amt;
+        do{
+            dog_amt = prompt("how many hotdogs do you want?");
+        }while(isNaN(dog_amt))
+    
+        do{
+            drink_amt = prompt("how many drinks do you want?");
+        }while(isNaN(drink_amt))
+    
+        do{
+            fries_amt = prompt("how many orders of fries do you want?");
+        }while(isNaN(fries_amt))
+        
+        //4.25 for dogs, 2.60 for fries, 1.50 for drinks. expensive
+        let subtotal = (4.25*dog_amt + 2.60*fries_amt + 1.50*drink_amt).toFixed(2)
+
+        let discount = 0.00;
+        if(subtotal > 20){
+            discount = (0.10 * subtotal).toFixed(2);
+        }
+        
+        let tax = ((subtotal - discount)*0.0625).toFixed(2);
+
+        let grand_total = (subtotal - discount + tax).toFixed(2);
+
+        //Math's all done, just need the document write stuff down here
+        document.getElementById("hotdogs").innerHTML = dog_amt
+        document.getElementById("fries").innerHTML = fries_amt
+        document.getElementById("drinks").innerHTML = drink_amt
+
+        document.getElementById("subtotal").innerHTML = subtotal
+        document.getElementById("discount").innerHTML = discount
+        document.getElementById("tax").innerHTML = tax
+        document.getElementById("grandtotal").innerHTML = grand_total
+    </script>
+    <ul>
+        <li>Hotdogs Ordered: <span id="hotdogs"></span></li>
+        <li>Fries Ordered: <span id="fries"></span></li>
+        <li>Drinks Ordered: <span id="drinks"></span></li>
+    </ul>
+    <ul>
+        <li>Subtotal: <span id="subtotal"></span></li>
+        <li>Discount (order above $20): <span id="discount"></span></li>
+        <li>Tax: <span id="tax"></span></li>
+        <li>Grand Total: <span id="grandtotal"></span></li>
+    </ul>
+
+</body>
 
 </html>
