@@ -1,59 +1,57 @@
 <!DOCTYPE html>
 <html>
-<title> Joe's Hotdogs </title>
+<title> Amicable Numbers </title>
 <head>
     <script>
-        function orderHotdogs(){
-            let dog_amt;
-            let drink_amt;
-            let fries_amt;
-            
-            dog_amt = prompt("how many hotdogs do you want?");
-        
-            drink_amt = prompt("how many drinks do you want?");
-        
-            fries_amt = prompt("how many orders of fries do you want?");
-            
-            //4.25 for dogs, 2.60 for fries, 1.50 for drinks. expensive
-            let subtotal = (4.25*dog_amt + 2.60*fries_amt + 1.50*drink_amt)
-            let rounded_subtotal = subtotal.toFixed(2)
-
-            let discount = 0;
-            if(subtotal > 20){
-                discount = (0.10 * subtotal);
+        function getFactors(x){
+            let factorList = []
+            for(i = 1; i < x/2; i++){
+                if(x % i == 0){
+                    factorList.push(i);
+                }
             }
+            return factorList;
+        }
+        function sumList(list){
+            let sum = 0;
+            for(i = 0; i < list.length; i++){
+                sum += list[i];
+            }
+            return sum;
+        }
+
+        function amicable(){
+            let num1 = prompt("Type number 1 here:");
+            let num2 = prompt("Type number 2 here:");
+
+            let num1Factors = getFactors(num1);
+            let num2Factors = getFactors(num2);
+
+            document.getElementById("num1Factors").innerHTML = num1Factors;
+            document.getElementById("num2Factors").innerHTML = num2Factors;
+
+            let endString = "";
+            if(sumList(num1Factors) == sumList(num2Factors)){
+                endString = "The numbers: " + num1 + " and " + num2 + " are amicable.";
+            }else{
+                endString = "The numbers: " + num1 + " and " + num2 + " are not amicable."
+            }
+
+            document.getElementById("amicable").innerHTML = endString;
             
-            let tax = ((subtotal - discount)*0.0625);
-            let rounded_tax = tax.toFixed(2)
+            
 
-            let grand_total = (subtotal - discount + tax).toFixed(2);
-
-            //Math's all done, just need the document write stuff down here
-            document.getElementById("hotdogs").innerHTML = dog_amt
-            document.getElementById("fries").innerHTML = fries_amt
-            document.getElementById("drinks").innerHTML = drink_amt
-
-            document.getElementById("subtotal").innerHTML = rounded_subtotal
-            document.getElementById("discount").innerHTML = discount
-            document.getElementById("tax").innerHTML = rounded_tax
-            document.getElementById("grandtotal").innerHTML = grand_total
         }
     </script>
 </head>
-<body onload="orderHotdogs()">
-    Your Order:
-    
-    <ul>
-        <li>Hotdogs Ordered: <span id="hotdogs"></span></li>
-        <li>Fries Ordered: <span id="fries"></span></li>
-        <li>Drinks Ordered: <span id="drinks"></span></li>
-    </ul>
-    <ul>
-        <li>Subtotal: $<span id="subtotal"></span></li>
-        <li>Discount (order above $20): $<span id="discount"></span></li>
-        <li>Tax: $<span id="tax"></span></li>
-        <li>Grand Total: $<span id="grandtotal"></span></li>
-    </ul>
+<body onload="amicable()">
+    <div>
+        First number factors: <span id="num1Factors"></span> <br>
+        Second number factors: <span id="num2Factors"></span> <br>
+    </div>
+    <div>
+        <span id = "amicable"></span>
+    </div>
 
 </body>
 
