@@ -22,19 +22,15 @@
 
             function amicable(){
 
-                // let num1 = document.getElementById("num1").value;
-                // let num2 = document.getElementById("num2").value;
-
-                let num1 = prompt("First Number: ")
-                let num2 = prompt("Second Number: ")
+                let num1 = document.getElementById("num1").value;
+                let num2 = document.getElementById("num2").value;
 
                 let num1Factors = getFactors(num1);
                 let num2Factors = getFactors(num2);
 
-               
-
                 let endString = "First Number Factors:" + num1Factors + "<br>Second Number Factors: " + num2Factors + "<br>";
-                if(sumList(num1Factors) == sumList(num2Factors)){
+
+                if(sumList(num1Factors) == num2 && sumList(num2Factors) == num1){
                     endString += "The numbers: " + num1 + " and " + num2 + " are amicable.";
                 }else{
                     endString += "The numbers: " + num1 + " and " + num2 + " are not amicable."
@@ -45,15 +41,15 @@
         </script>
     </head>
 
-    <body onload="amicable()">
-        <!-- <form id="formThing">
-            First Number: <input name="num1" type="text">
+    <body>
+        <form id="formThing">
+            First Number: <input id="num1" type="text">
             <br>
-            Second Number: <input name="num2" type="text">
+            Second Number: <input id="num2" type="text">
             <br>
         </form>
         <button onclick="amicable()">Submit</button>
-        <br> -->
+        <br>
         <div>
             <span id = "amicable"></span>
         </div>
