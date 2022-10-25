@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Jade Delight</title>
+</head>
+
+<body>
+	<script>
+
+		function MenuItem(name, cost) {
+			this.name = name;
+			this.cost = cost;
+		}
+
+		menuItems = new Array(
+			new MenuItem("Chicken Chop Suey", 5.5),
+			new MenuItem("Sweet and Sour Pork", 7.25),
+			new MenuItem("Shrimp Lo Mein", 6.80),
+			new MenuItem("Moo Shi Chicken", 9.50),
+			new MenuItem("Fried Rice", 3.25)
+		);
+
+		function makeSelect(name, minRange, maxRange) {
+			var t = "";
+			t = "<select name='" + name + "' size='1'>";
+			for (j = minRange; j <= maxRange; j++)
+				t += "<option>" + j + "</option>";
+			t += "</select>";
+			return t;
+		}
+
+		function td(content, className = "") {
+			return "<td class = '" + className + "'>" + content + "</td>";
+		}
+
+
+
+	</script>
+
+	<h1>Jade Delight</h1>
+	<form>
+
+		<p class="userInfo"><label>First Name:</label> <input type="text" name='fname' /></p>
+		<p class="userInfo"><label>Last Name*:</label> <input type="text" name='lname' /></p>
+		<p class="userInfo address"><label>Street*:</label> <input type="text" name='street' /></p>
+		<p class="userInfo address"><label>City*:</label> <input type="text" name='city' /></p>
+		<p class="userInfo"><label>Phone*:</label> <input type="text" name='phone' /></p>
+		<p>
+			<input type="radio" name="p_or_d" value="pickup" checked="checked" />Pickup
+			<input type="radio" name='p_or_d' value='delivery' />
+			Delivery
+		</p>
+		<table border="0" cellpadding="3">
+			<tr>
+				<th>Select Item</th>
+				<th>Item Name</th>
+				<th>Cost Each</th>
+				<th>Total Cost</th>
+			</tr>
+			<script>
+				var s = "";
+				for (i = 0; i < menuItems.length; i++) {
+					s += "<tr>";
+					s += td(makeSelect("quan" + i, 0, 10), "selectQuantity");
+					s += td(menuItems[i].name, "itemName");
+					s += td("$" + menuItems[i].cost.toFixed(2), "cost");
+					s += td("$<input type='text' name='cost'/>", "totalCost");
+					s += "</tr>";
+				}
+				document.writeln(s);
+			</script>
+		</table>
+		<p class="subtotal totalSection"><label>Subtotal</label>:
+			$ <input type="text" name='subtotal' id="subtotal" />
+		</p>
+		<p class="tax totalSection"><label>Mass tax 6.25%:</label>
+			$ <input type="text" name='tax' id="tax" />
+		</p>
+		<p class="total totalSection"><label>Total:</label> $ <input type="text" name='total' id="total" />
+		</p>
+
+		<input type="button" value="Submit Order" />
+
+	</form>
+
+	<!-- NEW FUNCTIONALITY HERE -->
+	<script>
+		//Behold the scripts
+
+
+
+		//NEW FUNCTIONALITY for street/city visibility based on pickup/delivery option
+		let pickup_button = document.getElementsByName("p_or_d")[0];
+		let delivery_button = document.getElementsByName('p_or_d')[1];
+
+		let address_elems = document.getElementsByClassName("userInfo address");
+
+		for (i = 0; i < address_elems.length; i++) {
+			address_elems[i].style.display = "none";
+			address_elems[i].value = " ";
+		}
+
+		function elemVisible() {
+			if (this.checked) {
+				for (i = 0; i < address_elems.length; i++) {
+					address_elems[i].style.display = "";
+					console.log(address_elems[i].style.display);
+				}
+			}
+		}
+		function elemHidden() {
+			if (this.checked) {
+				for (i = 0; i < address_elems.length; i++) {
+					address_elems[i].style.display = "none";
+					console.log(address_elems[i].style.display);
+				}
+			}
+		}
+
+		//street and city boxes hidden unless 'delivery' is checked
+		delivery_button.addEventListener('change', elemVisible);
+		pickup_button.addEventListener('change', elemHidden);
+		//END NEW FUNCTIONALITY for street/city visibility
+
+
+		//NEW FUNCTIONALITY for item price updating
+		let itemAmounts = document.getElementsByClassName("selectQuantity");
+
+		//a list of variables, for calculations later.
+		let itemTotalArray = new Array(0, 0, 0, 0, 0);
+		let itemAmt = 0; //number of an item purchased
+		let theCost = 0; //cost pp of an item
+		let itemTotal = 0; //total cost for an item (amt * cost)
+
+		let subtotal = 0;
+		let tax = 0;
+		let grandTotal = 0;
+
+		for (i = 0; i < itemAmounts.length; i++) {
+			let curIndex = i;
+			let dropdown = document.getElementsByName("quan" + i)[0];
+
+			//event listener to update prices based on item value change
+			dropdown.addEventListener('change', function updatePrices() {
+
+				//update total cost for individual items
+				itemAmt = parseInt(dropdown.options[dropdown.selectedIndex].text); //IT WORKS!!!!!!!!!!
+				theCost = menuItems[curIndex].cost;
+				itemTotal = itemAmt * theCost;
+				document.getElementsByClassName("totalCost")[curIndex].getElementsByTagName("input")[0].value = itemTotal.toFixed(2);
+
+				//update subtotal, tax and total. Not crazy efficient, but, well. Shoot me.
+				itemTotalArray[curIndex] = itemTotal;
+				subtotal = 0;
+				for (i = 0; i < itemTotalArray.length; i++) {
+					subtotal += parseFloat(itemTotalArray[i]);
+				}
+				tax = parseFloat(subtotal * 0.0625);
+				grandTotal = parseFloat(subtotal + tax);
+
+				//slap 'em on the webpage
+				document.getElementById("subtotal").value = subtotal.toFixed(2);
+				document.getElementById("tax").value = tax.toFixed(2);
+				document.getElementById("total").value = grandTotal.toFixed(2);
+			});
+		}
+		//END NEW FUNCTIONALITY for item price updating
+
+		//NEW FUNCTIONALITY for information checking and order confirmation
+		let submitButton = document.querySelector('input[type="button"]');
+
+		submitButton.addEventListener("click", function checkInfo() {
+
+			//check to ensure the customer actually ordered something
+			let hasOrdered = false;
+			for (i = 0; i < itemTotalArray.length; i++) {
+				let l = itemTotalArray[i];
+				if (l > 0) {
+					hasOrdered = true;
+					break;
+				}
+			}
+			if (!hasOrdered) {
+				alert("You must order at least one item!")
+
+			} else {
+
+				//if the order checks out, check to ensure all information is entered properly
+				let userInfo = document.getElementsByClassName("userInfo");
+				let infoGood = true;
+				for (i = 1; i < userInfo.length - 1; i++) { //skips first name and phone number
+					let inputBox = userInfo[i].getElementsByTagName("input")[0];
+					if (inputBox.value == '' && userInfo[i].style.display != 'none') {
+						infoGood = false;
+						alert("Missing " + document.getElementsByTagName("label")[i].textContent + "!");
+						break;
+					}
+				}
+				if (infoGood) {
+					//check to make sure phone number is good
+					let phoneNum = userInfo[4].getElementsByTagName("input")[0].value;
+					if (isNaN(phoneNum) || phoneNum.length == 0 || (phoneNum.length != 7 && phoneNum.length != 10)) {
+						alert("Invalid phone number!")
+
+					} else {
+						//info and order are good, so open a window with confirmation
+						//and delivery time
+						alert("Order successful. Thank you for your order!");
+						let confirmationWindow = window.open("confirmation.html", "_blank");
+
+
+						//generate html in the new window. Lots of procedural stuff.
+						confirmationWindow.document.write("<!DOCTYPE html>\n<html><title>Confirmation</title><body>");
+						confirmationWindow.document.write("</body></html>");
+
+						//now time to make the confirmation string.
+						let summary = "Items bought: <br>";
+						for (i = 0; i < itemAmounts.length; i++) {
+							let dropdown = document.getElementsByName("quan" + i)[0];
+							itemAmt = parseInt(dropdown.options[dropdown.selectedIndex].text);
+							if (itemAmt != 0) {
+								summary += "&nbsp;&nbsp;&nbsp;&nbsp;" + menuItems[i].name + "&nbsp;&nbsp;";
+								summary += "Amount: " + itemAmt + "&nbsp;&nbsp;";
+								summary += "Total Cost: " + (itemAmt * menuItems[i].cost).toFixed(2) + "<br>";
+							}
+						}
+						summary += "<br>Subtotal: " + subtotal.toFixed(2) + "<br>";
+						summary += "Tax: " + tax.toFixed(2) + "<br>";
+						summary += "Grand Total: " + grandTotal.toFixed(2) + "<br><br>";
+
+
+
+						//gotta tell them when it's coming, right?
+						let today = new Date();
+						if (pickup_button.checked) {
+							today.setMinutes(today.getMinutes() + 20);
+							//just 20 mins for pickup. Delivery sucks though. 40 minutes?
+							summary += "Your order will be ready at " + today.toLocaleTimeString(navigator.language,
+							{
+								hour: "2-digit",
+								minute: "2-digit"
+							}) + ".";
+
+
+						} else {
+							today.setMinutes(today.getMinutes() + 40);
+							summary += "Your order will arrive at " + today.toLocaleTimeString(navigator.language,
+							{
+								hour: "2-digit",
+								minute: "2-digit"
+							}) + ".";
+
+						}
+
+						confirmationWindow.document.write(summary);
+
+
+					}
+				}
+			}
+		});
+		//END NEW FUNCTIONALITY for information checking and order confirmation
+	</script>
+</body>
+
+</html>
