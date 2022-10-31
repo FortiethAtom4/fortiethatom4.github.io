@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<title>Song List</title>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="songlist.js"></script>
+
+<body>
+
+    Genre:
+    <form>
+        <select id="genre">
+            <option value="all">Show All</option>
+            <option value="pop">Pop</option>
+            <option value="rockandroll">Rock & Roll</option>
+            <option value="indie/alt">Indie/Alternative</option>
+            <option value="edm">EDM</option>
+            <option value="classical">Classical</option>
+            <option value="rap">Rap</option>
+            <option value="childrens">Children's Music</option>
+            <option value="jpop">J-Pop</option>
+        </select>
+
+        <input type="button" id="submit" value="Filter">
+    </form>
+    <br>
+
+    <p id="songlist"></p>
+</body>
+<script>
+
+    let getGenre = document.getElementById("submit");
+
+    getGenre.addEventListener("click", function displayGenre() {
+        let option = document.getElementById("genre");
+        let chosen = option.options[option.selectedIndex].text;
+
+        let endString = "";
+        let counter = 0;
+        for (i = 0; i < data.length; i++) {
+            if (data[i].genre == chosen || chosen == "Show All") {
+                counter += 1;
+                endString += counter + ".\n"
+                endString += "Name: " + data[i].name + "\n";
+                endString += "Artist: " + data[i].artist + "\n";
+                endString += "Genre: " + data[i].genre + "\n";
+                endString += "Year: " + data[i].year + "\n\n";
+            }
+        }
+
+        document.getElementById("songlist").innerText = endString;
+    });
+
+
+</script>
+
+
+
+</html>

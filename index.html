@@ -1,58 +1,55 @@
 <!DOCTYPE html>
 <html>
-<title>Song List</title>
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="songlist.js"></script>
+<!-- source website: https://uselessfacts.jsph.pl/ -->
+
+<!--Question
+What were the most challenging and most satisfying things about doing this assignment? -->
 
 <body>
-
-    Genre:
-    <form>
-        <select id="genre">
-            <option value="all">Show All</option>
-            <option value="pop">Pop</option>
-            <option value="rockandroll">Rock & Roll</option>
-            <option value="indie/alt">Indie/Alternative</option>
-            <option value="edm">EDM</option>
-            <option value="classical">Classical</option>
-            <option value="rap">Rap</option>
-            <option value="childrens">Children's Music</option>
-            <option value="jpop">J-Pop</option>
-        </select>
-
-        <input type="button" id="submit" value="Filter">
-    </form>
+    Fact received using fetch():
+    <p id="uselessfact"></p>
+    Fact received using AJAX GET:
+    <p id="uselessfact2"></p>
     <br>
+    Chosen API: Useless Facts API (https://uselessfacts.jsph.pl) <br><br>
+    This API, as the name implies, generates a random fun ("useless") fact with each request. <br>
+    The main option i used was "language" to set the language of the random fact to English. <br>
+    I kept getting facts in an unknown Scandinavian language, which I obviously cannot read. <br>
+    Although this API has "useless" in the name, I think it has use as a filler for e.g. profile pages <br>
+    or a way to spice up loading screens. <br> <br>
 
-    <p id="songlist"></p>
-</body>
-<script>
+    <script>
 
-    let getGenre = document.getElementById("submit");
+        var req = new XMLHttpRequest();
+        req.onreadystatechange = function () {
 
-    getGenre.addEventListener("click", function displayGenre() {
-        let option = document.getElementById("genre");
-        let chosen = option.options[option.selectedIndex].text;
-
-        let endString = "";
-        let counter = 0;
-        for (i = 0; i < data.length; i++) {
-            if (data[i].genre == chosen || chosen == "Show All") {
-                counter += 1;
-                endString += counter + ".\n"
-                endString += "Name: " + data[i].name + "\n";
-                endString += "Artist: " + data[i].artist + "\n";
-                endString += "Genre: " + data[i].genre + "\n";
-                endString += "Year: " + data[i].year + "\n\n";
+            if (req.readyState == 4) {
+                //the request is completed, now check its status
+                if (req.status == 200) {
+                    let txt = JSON.parse(req.responseText);
+                    document.getElementById("uselessfact2").textContent = txt.text;
+                }
+                else {
+                    console.log("Status error: " + req.status);
+                }
             }
+
+
         }
-
-        document.getElementById("songlist").innerText = endString;
-    });
-
-
-</script>
+        req.open('GET', 'https://uselessfacts.jsph.pl/random.json?language=en');
+        req.send();
 
 
+        let res = fetch("https://uselessfacts.jsph.pl/random.json?language=en")
+        res.then(function (response) {
+            return response.text();
+        })
+            .then(function (text) {
+                text = JSON.parse(text)
+                document.getElementById('uselessfact').innerText = text.text;
+            });
+
+    </script>
+</body>
 
 </html>
