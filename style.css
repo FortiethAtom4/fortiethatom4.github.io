@@ -1,5 +1,10 @@
+/* stylesheet for all pages. Use to keep style  the same across all pages. */
 
-
-.header{
+head{
     text-align: center;
+    color: blue;
+}
+
+body {
+    color: blue;
 }
