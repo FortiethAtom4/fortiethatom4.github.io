@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<!-- source website: https://uselessfacts.jsph.pl/ -->
+
+<body>
+    Fact received using fetch():
+    <p id="uselessfact"></p>
+    Fact received using AJAX GET:
+    <p id="uselessfact2"></p>
+    <br>
+
+    <script>
+
+        var req = new XMLHttpRequest();
+        req.onreadystatechange = function () {
+
+            if (req.readyState == 4) {
+                //the request is completed, now check its status
+                if (req.status == 200) {
+                    let txt = JSON.parse(req.responseText);
+                    document.getElementById("uselessfact2").textContent = txt.text;
+                }
+                else {
+                    console.log("Status error: " + req.status);
+                }
+            }
+
+
+        }
+        req.open('GET', 'https://uselessfacts.jsph.pl/random.json?language=en');
+        req.send();
+
+
+        let res = fetch("https://uselessfacts.jsph.pl/random.json?language=en")
+        res.then(function (response) {
+            return response.text();
+        })
+            .then(function (text) {
+                text = JSON.parse(text)
+                document.getElementById('uselessfact').innerText = text.text;
+            });
+
+    </script>
+</body>
+
+</html>
