@@ -39,8 +39,9 @@ body {
     background:#333;
     color:white;
     text-align: center;
-    padding: 10px 22px;
+    padding: 2px 22px;
     text-decoration: none;
+    /* overflow: hidden; */
   }
   .buttonlink a:hover {
     background-color: #ddd;
