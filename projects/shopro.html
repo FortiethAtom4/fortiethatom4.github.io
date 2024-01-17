@@ -17,9 +17,22 @@
         <h1>SHOPRO, a customizable text-based fighting card game</h1>
 
         <figure>
-            <img src="shopro ss.png" alt="High Score" width="640" height="360">
+            <img src="shopro ss.png" alt="Game Board" width="640" height="360">
             <figcaption>Screenshot of the game board with some default cards.</figcaption>
         </figure>
+
+        <div>
+            Players can create their own cards using a special set of keywords. <br><br>
+
+            Example: I want to make an event card called "Swimming in Money," which gives 2 ACP when used.<br>
+            This card can be written as: <br> <br>
+            
+            &lt;Event "Swimming in Money" "Gain 2 ACP." [s event > gain_acp 2]> <br> <br> <!-- use css to make this text stand out more -->
+
+            The card is then added to the deck and randomly assigned to a player. <br>
+            Running the game, it appears in Player 2's opening hand along with some other premade cards: <br>
+            <img src="example hand.png" alt="Example Hand">
+        </div>
         
         <!-- images here -->
         <div>

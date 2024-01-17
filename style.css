@@ -1,12 +1,6 @@
-/* stylesheet for all pages. Use to keep style  the same across all pages. */
-
+/* stylesheet. Use to keep style the same across all pages. */
 head{
     text-align: center;
-    color: blue;
-}
-
-body {
-    color: blue;
 }
 
 .navbar {
