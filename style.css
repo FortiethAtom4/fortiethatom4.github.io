@@ -1,11 +1,12 @@
 /* stylesheet. Use to keep style the same across all pages. */
-head{
+head, .project {
     text-align: center;
 }
 
 body {
   font-size: 14;
 }
+
 
 .navbar {
     overflow: hidden; /* Hide overflow */
