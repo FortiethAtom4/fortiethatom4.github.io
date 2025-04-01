@@ -6,11 +6,6 @@ head, .project {
 h1 {
   font-size: 72pt;
 }
-/* 
-body {
-  font-size: 14;
-} */
-
 
 .navbar {
     overflow: hidden; /* Hide overflow */
